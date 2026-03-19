@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pink Ladies Volunteer Corps — Website Audit</title>
+<style>
+  :root {
+    --pink: #d63384;
+    --pink-light: #f8d7e8;
+    --pink-mid: #e8789a;
+    --pink-pale: #fdf0f5;
+    --dark: #2a0a16;
+    --text: #3d1a26;
+    --muted: #7a5060;
+    --white: #ffffff;
+    --green: #198754;
+    --green-bg: #d1e7dd;
+    --amber: #c47d00;
+    --amber-bg: #fff3cd;
+    --red: #842029;
+    --red-bg: #f8d7da;
+    --blue: #084298;
+    --blue-bg: #cfe2ff;
+    --border: #f0c4d4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--pink-pale);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--pink) 0%, #a01050 100%);
+    color: white;
+    padding: 50px 40px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🩷';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.06;
+    top: -40px;
+    left: -40px;
+  }
+  header::after {
+    content: '🌺';
+    position: absolute;
+    font-size: 160px;
+    opacity: 0.06;
+    bottom: -30px;
+    right: -20px;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-family: sans-serif;
+  }
+  header h1 {
+    font-size: 2.4rem;
+    font-weight: normal;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  header p {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-family: sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 2px solid var(--border);
+  }
+  .stat-box {
+    background: white;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .stat-box .number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--pink);
+    display: block;
+  }
+  .stat-box .label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  .section-header h2 {
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: var(--dark);
+  }
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* PRIORITY GRID */
+  .priority-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(214,51,132,0.1);
+  }
+
+  .card-header {
+    padding: 16px 20px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header .icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .card-header .title-area h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--dark);
+    margin-bottom: 2px;
+  }
+  .card-header .title-area .subtitle {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: sans-serif;
+  }
+  .card-body {
+    padding: 16px 20px;
+    font-size: 0.88rem;
+    font-family: sans-serif;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .card-footer {
+    padding: 12px 20px;
+    background: var(--pink-pale);
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    font-family: sans-serif;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* PRIORITY BADGES */
+  .badge-critical { background: var(--red-bg); color: var(--red); border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-high { background: var(--amber-bg); color: var(--amber); border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-medium { background: var(--blue-bg); color: var(--blue); border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+  .badge-done { background: var(--green-bg); color: var(--green); border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* LEFT BORDER ACCENT */
+  .card.critical { border-left: 4px solid #dc3545; }
+  .card.high { border-left: 4px solid #ffc107; }
+  .card.medium { border-left: 4px solid #0d6efd; }
+  .card.working { border-left: 4px solid #198754; }
+
+  /* FULL-WIDTH CARD */
+  .card-full {
+    grid-column: 1 / -1;
+  }
+
+  /* EFFORT TABLE */
+  .effort-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .effort-table th {
+    background: var(--pink);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+  }
+  .effort-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .effort-table tr:last-child td { border-bottom: none; }
+  .effort-table tr:hover td { background: var(--pink-pale); }
+  .wix-yes { color: var(--green); font-weight: bold; }
+  .effort-hrs { font-weight: bold; color: var(--pink); }
+
+  /* WHAT'S WORKING */
+  .working-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .working-item {
+    background: white;
+    border: 1px solid var(--green-bg);
+    border-left: 4px solid var(--green);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: sans-serif;
+    font-size: 0.85rem;
+  }
+  .working-item .wi-title { font-weight: bold; color: var(--green); margin-bottom: 4px; }
+
+  /* QUICK WINS */
+  .quick-wins {
+    background: linear-gradient(135deg, var(--pink) 0%, #a01050 100%);
+    border-radius: 12px;
+    padding: 28px 32px;
+    color: white;
+    margin-top: 32px;
+  }
+  .quick-wins h3 {
+    font-size: 1.2rem;
+    font-weight: normal;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+  .qw-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .qw-item {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .qw-item .step { font-size: 1.6rem; margin-bottom: 8px; }
+  .qw-item h4 { font-size: 0.9rem; margin-bottom: 6px; }
+  .qw-item p { font-size: 0.78rem; opacity: 0.82; font-family: sans-serif; line-height: 1.5; }
+
+  /* RESEARCH CALLOUT */
+  .research-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--pink-mid);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+  .research-box strong { color: var(--pink); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px;
+    font-family: sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  footer strong { color: var(--pink); }
+
+  @media (max-width: 700px) {
+    .priority-grid, .working-grid, .qw-items { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    header h1 { font-size: 1.6rem; }
+    .card-full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="badge">Confidential Website Audit — March 2026</div>
+  <h1>🩷 Pink Ladies Volunteer Corps</h1>
+  <p>Website review & recommendations — prepared to support PLVC's digital presence</p>
+</header>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-box">
+    <span class="number">$2M+</span>
+    <span class="label">Donated since 1980</span>
+  </div>
+  <div class="stat-box">
+    <span class="number">44</span>
+    <span class="label">Years of community service</span>
+  </div>
+  <div class="stat-box">
+    <span class="number">13</span>
+    <span class="label">Charities supported in 2025–26</span>
+  </div>
+  <div class="stat-box">
+    <span class="number">£0</span>
+    <span class="label">Online donations currently possible</span>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+  <!-- CRITICAL ISSUES -->
+  <div class="section-header">
+    <h2>🚨 Critical — Fix First</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="card critical">
+      <div class="card-header">
+        <div class="icon">💳</div>
+        <div class="title-area">
+          <h3>No Online Donation Mechanism</h3>
+          <div class="subtitle">The single biggest missed opportunity</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The Pink Ladies have raised over $2M in 44 years — but there is currently <strong>no way to donate online</strong> anywhere on the site. Visitors who want to support the cause have no clear path to do so.
+        <br><br>
+        Wix natively supports PayPal, Stripe, and Wix Payments. A donate button on every page could be live within a few hours.
+      </div>
+      <div class="card-footer">
+        <span class="badge-critical">🔴 Critical</span>
+        <span>~2–3 hrs · Wix Payments / PayPal</span>
+      </div>
+    </div>
+
+    <div class="card critical">
+      <div class="card-header">
+        <div class="icon">📅</div>
+        <div class="title-area">
+          <h3>Stale Events Page</h3>
+          <div class="subtitle">Last event listed: November 2025</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The only event currently listed is the Christmas Bazaar from <strong>November 2025</strong>. It is now March 2026. Outdated event listings are one of the strongest signals of an unmaintained website — they actively undermine trust with new visitors.
+        <br><br>
+        Wix Events auto-archives past events. Upcoming 2026 events should be added immediately.
+      </div>
+      <div class="card-footer">
+        <span class="badge-critical">🔴 Critical</span>
+        <span>~1 hr · Wix Events App</span>
+      </div>
+    </div>
+
+    <div class="card critical card-full">
+      <div class="card-header">
+        <div class="icon">📧</div>
+        <div class="title-area">
+          <h3>Gmail Address as Primary Contact</h3>
+          <div class="subtitle">pinkladiescayman@gmail.com — undermines credibility for a 44-year-old registered NPO</div>
+        </div>
+      </div>
+      <div class="card-body">
+        For a registered NPO with a <code>.ky</code> domain, using a Gmail address as the primary contact creates an immediate trust gap — particularly for corporate sponsors, media, and grant bodies. A professional address such as <strong>info@pinkladies.ky</strong> or <strong>hello@pinkladies.ky</strong> is simple to set up via Google Workspace (~$6/month) or Wix's own email tools, and signals organisational maturity.
+      </div>
+      <div class="card-footer">
+        <span class="badge-critical">🔴 Critical</span>
+        <span>~30 mins · Google Workspace or Wix Email</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HIGH PRIORITY -->
+  <div class="section-header">
+    <h2>🟠 High Priority</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="card high">
+      <div class="card-header">
+        <div class="icon">📊</div>
+        <div class="title-area">
+          <h3>No Visual Impact Statistics</h3>
+          <div class="subtitle">$70,000 donated in 2026 — where is this on the homepage?</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The $2M lifetime figure is buried in a paragraph. The February 2026 Cayman Compass article confirms $70,000 donated to 13 charities — this should be front and centre. Visual impact counters (animated numbers, icon grids) are proven to drive volunteer sign-ups and donations.
+      </div>
+      <div class="card-footer">
+        <span class="badge-high">🟠 High</span>
+        <span>~2 hrs · Wix Animations</span>
+      </div>
+    </div>
+
+    <div class="card high">
+      <div class="card-header">
+        <div class="icon">👩‍💼</div>
+        <div class="title-area">
+          <h3>No Team / Leadership Page</h3>
+          <div class="subtitle">Who are the Pink Ladies? The website doesn't say.</div>
+        </div>
+      </div>
+      <div class="card-body">
+        There are no names, photos, or bios anywhere on the site. Research by Stanford Social Innovation Review identifies <strong>leadership transparency</strong> as a top trust signal for nonprofits. A simple Meet the Team page with photos and short bios would transform how the organisation feels to first-time visitors.
+      </div>
+      <div class="card-footer">
+        <span class="badge-high">🟠 High</span>
+        <span>~2–3 hrs · Wix Team Page</span>
+      </div>
+    </div>
+
+    <div class="card high">
+      <div class="card-header">
+        <div class="icon">📬</div>
+        <div class="title-area">
+          <h3>No Email Newsletter Sign-Up</h3>
+          <div class="subtitle">The highest-ROI channel for nonprofits — currently absent</div>
+        </div>
+      </div>
+      <div class="card-body">
+        There is no mailing list, no "stay in touch" prompt, no email capture anywhere on the site. Research from Litmus (2023) shows email delivers <strong>$36 return per $1 spent</strong> for nonprofits. Wix Ascend includes built-in email marketing — a simple sign-up form could go live in under an hour.
+      </div>
+      <div class="card-footer">
+        <span class="badge-high">🟠 High</span>
+        <span>~1 hr · Wix Ascend</span>
+      </div>
+    </div>
+
+    <div class="card high">
+      <div class="card-header">
+        <div class="icon">📋</div>
+        <div class="title-area">
+          <h3>Membership Form is Off-Platform</h3>
+          <div class="subtitle">Currently links to a Google Form — breaks the journey</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The membership/volunteering sign-up redirects to an external Google Form. This breaks the user journey, looks unpolished, and means data is fragmented. Wix Forms can replicate this natively, keeping everything in one place and allowing automated confirmation emails.
+      </div>
+      <div class="card-footer">
+        <span class="badge-high">🟠 High</span>
+        <span>~1–2 hrs · Wix Forms</span>
+      </div>
+    </div>
+
+    <div class="card high card-full">
+      <div class="card-header">
+        <div class="icon">📖</div>
+        <div class="title-area">
+          <h3>About Page Doesn't Tell the Story</h3>
+          <div class="subtitle">44 years of history reduced to a list of charity names</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The About page is currently a plain list of charitable causes — no founding story, no timeline, no human warmth. Yet the history is genuinely rich: founded in 1980 by Olive Miller MBE and Evelyn Andresen; a hospital coffee shop that ran for 33 years; a fashion show tradition since 1982; a Christmas Bazaar since 1983. This should be told as a story — with a timeline, archival photos, and founder acknowledgement. It would take content work but minimal technical effort on Wix.
+      </div>
+      <div class="card-footer">
+        <span class="badge-high">🟠 High</span>
+        <span>~3 hrs · Content + Wix Timeline Widget</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MEDIUM PRIORITY -->
+  <div class="section-header">
+    <h2>🔵 Medium Priority</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="priority-grid">
+
+    <div class="card medium">
+      <div class="card-header">
+        <div class="icon">🔍</div>
+        <div class="title-area">
+          <h3>SEO Basics Missing</h3>
+          <div class="subtitle">Invisible to local search</div>
+        </div>
+      </div>
+      <div class="card-body">
+        No meta descriptions, weak page titles, no Google Business Profile. A local Cayman charity should rank well for searches like "volunteer Cayman Islands" or "donate Cayman charity." Wix SEO Wiz guides this process step-by-step — no coding required.
+      </div>
+      <div class="card-footer">
+        <span class="badge-medium">🔵 Medium</span>
+        <span>~2 hrs · Wix SEO Wiz</span>
+      </div>
+    </div>
+
+    <div class="card medium">
+      <div class="card-header">
+        <div class="icon">📰</div>
+        <div class="title-area">
+          <h3>No Press / Media Section</h3>
+          <div class="subtitle">Recent Cayman Compass coverage has nowhere to live</div>
+        </div>
+      </div>
+      <div class="card-body">
+        A February 2026 Cayman Compass article confirmed $70,000 in donations — but there's nowhere to feature this on the site. A press page with media mentions builds credibility and makes it easier for journalists to cover future work. Simple to build on Wix.
+      </div>
+      <div class="card-footer">
+        <span class="badge-medium">🔵 Medium</span>
+        <span>~1 hr · Wix Page</span>
+      </div>
+    </div>
+
+    <div class="card medium">
+      <div class="card-header">
+        <div class="icon">🖼️</div>
+        <div class="title-area">
+          <h3>No Photo Gallery / Archive</h3>
+          <div class="subtitle">44 years of moments — none of them visible</div>
+        </div>
+      </div>
+      <div class="card-body">
+        Events like the Fashion Show, Christmas Bazaar, and community volunteering days generate great photos — but they live only on social media. A gallery section would bring the organisation to life visually and support volunteer recruitment. Wix Pro Gallery handles this beautifully.
+      </div>
+      <div class="card-footer">
+        <span class="badge-medium">🔵 Medium</span>
+        <span>~2 hrs · Wix Pro Gallery</span>
+      </div>
+    </div>
+
+    <div class="card medium">
+      <div class="card-header">
+        <div class="icon">✍️</div>
+        <div class="title-area">
+          <h3>Blog Needs a Consistent Cadence</h3>
+          <div class="subtitle">3 posts in 2025 — either commit or convert to News</div>
+        </div>
+      </div>
+      <div class="card-body">
+        The blog has only 3 posts from 2025, the most recent from May. A rarely updated blog harms SEO and signals inactivity. Recommended: rename to "News & Updates," aim for one post per month tied to events and donations, and keep posts short with photos.
+      </div>
+      <div class="card-footer">
+        <span class="badge-medium">🔵 Medium</span>
+        <span>Ongoing · Content strategy</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WHAT'S WORKING -->
+  <div class="section-header">
+    <h2>✅ What's Already Working</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="working-grid">
+    <div class="working-item">
+      <div class="wi-title">✅ Clean Navigation</div>
+      Clear 6-page structure (Home, About, Programmes, Volunteering, Blog, Contact) — easy to find your way around.
+    </div>
+    <div class="working-item">
+      <div class="wi-title">✅ .ky Domain</div>
+      Professional Cayman domain already in place — ahead of many local NPOs. Credible and memorable.
+    </div>
+    <div class="working-item">
+      <div class="wi-title">✅ Consistent Brand Colour</div>
+      Pink is used consistently throughout — strong visual identity that's immediately recognisable.
+    </div>
+    <div class="working-item">
+      <div class="wi-title">✅ Social Media Linked</div>
+      Instagram and Facebook both linked from the Contact page, and both appear active.
+    </div>
+    <div class="working-item">
+      <div class="wi-title">✅ Registered NPO Status Noted</div>
+      The About page confirms Cayman Islands Registrar registration — an important trust signal.
+    </div>
+    <div class="working-item">
+      <div class="wi-title">✅ Blog Has Real Content</div>
+      Posts include real photos and genuine activity updates — the raw material is there, it just needs more frequency.
+    </div>
+  </div>
+
+  <!-- EFFORT TABLE -->
+  <div class="section-header">
+    <h2>⏱️ Effort Summary</h2>
+    <div class="line"></div>
+  </div>
+
+  <table class="effort-table">
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Improvement</th>
+        <th>Est. Time</th>
+        <th>Wix Native?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge-critical">🔴 Critical</span></td>
+        <td>Add Donate button / payment integration</td>
+        <td class="effort-hrs">2–3 hrs</td>
+        <td class="wix-yes">✅ Yes — Wix Payments / PayPal</td>
+      </tr>
+      <tr>
+        <td><span class="badge-critical">🔴 Critical</span></td>
+        <td>Update Events page (remove Nov 2025 listing)</td>
+        <td class="effort-hrs">1 hr</td>
+        <td class="wix-yes">✅ Yes — Wix Events</td>
+      </tr>
+      <tr>
+        <td><span class="badge-critical">🔴 Critical</span></td>
+        <td>Professional email address (info@pinkladies.ky)</td>
+        <td class="effort-hrs">30 min</td>
+        <td class="wix-yes">✅ Yes — Wix / Google Workspace</td>
+      </tr>
+      <tr>
+        <td><span class="badge-high">🟠 High</span></td>
+        <td>Homepage impact statistics (animated counters)</td>
+        <td class="effort-hrs">2 hrs</td>
+        <td class="wix-yes">✅ Yes — Wix Animations</td>
+      </tr>
+      <tr>
+        <td><span class="badge-high">🟠 High</span></td>
+        <td>Meet the Team / Leadership page</td>
+        <td class="effort-hrs">2–3 hrs</td>
+        <td class="wix-yes">✅ Yes</td>
+      </tr>
+      <tr>
+        <td><span class="badge-high">🟠 High</span></td>
+        <td>Email newsletter sign-up (Wix Ascend)</td>
+        <td class="effort-hrs">1 hr</td>
+        <td class="wix-yes">✅ Yes — Wix Ascend</td>
+      </tr>
+      <tr>
+        <td><span class="badge-high">🟠 High</span></td>
+        <td>Bring membership form on-platform</td>
+        <td class="effort-hrs">1–2 hrs</td>
+        <td class="wix-yes">✅ Yes — Wix Forms</td>
+      </tr>
+      <tr>
+        <td><span class="badge-high">🟠 High</span></td>
+        <td>Rewrite About page as a story with timeline</td>
+        <td class="effort-hrs">3 hrs</td>
+        <td class="wix-yes">✅ Yes + content work</td>
+      </tr>
+      <tr>
+        <td><span class="badge-medium">🔵 Medium</span></td>
+        <td>SEO basics via Wix SEO Wiz</td>
+        <td class="effort-hrs">2 hrs</td>
+        <td class="wix-yes">✅ Yes — Wix SEO Wiz</td>
+      </tr>
+      <tr>
+        <td><span class="badge-medium">🔵 Medium</span></td>
+        <td>Press / media mentions section</td>
+        <td class="effort-hrs">1 hr</td>
+        <td class="wix-yes">✅ Yes</td>
+      </tr>
+      <tr>
+        <td><span class="badge-medium">🔵 Medium</span></td>
+        <td>Photo gallery / event archive</td>
+        <td class="effort-hrs">2 hrs</td>
+        <td class="wix-yes">✅ Yes — Wix Pro Gallery</td>
+      </tr>
+      <tr>
+        <td><span class="badge-medium">🔵 Medium</span></td>
+        <td>Blog → News cadence (monthly)</td>
+        <td class="effort-hrs">Ongoing</td>
+        <td class="wix-yes">✅ Yes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="research-box">
+    📚 <strong>Research basis:</strong> Nonprofit Tech for Good (2023 Global NGO Report) — nonprofits with prominent donate buttons raise 20–40% more online. M+R Benchmarks (2024) — impact statistics are the #1 driver of first-time donations. Litmus (2023) — email marketing returns $36 per $1 spent for nonprofits. Stanford Social Innovation Review — leadership transparency is a top trust signal for nonprofits. All technical recommendations are achievable within Wix's native feature set, no custom development required.
+  </div>
+
+  <!-- QUICK WINS -->
+  <div class="quick-wins">
+    <h3>⚡ Three Quick Wins — Start Here</h3>
+    <div class="qw-items">
+      <div class="qw-item">
+        <div class="step">1️⃣</div>
+        <h4>Add a Donate Button</h4>
+        <p>Top of every page. PayPal or Wix Payments. Could be live by end of day. Even one donation covers months of hosting costs.</p>
+      </div>
+      <div class="qw-item">
+        <div class="step">2️⃣</div>
+        <h4>Update the Events Page</h4>
+        <p>Remove the November 2025 Christmas Bazaar. Add any 2026 events. 45 minutes of work that immediately signals an active organisation.</p>
+      </div>
+      <div class="qw-item">
+        <div class="step">3️⃣</div>
+        <h4>Add a Newsletter Sign-Up</h4>
+        <p>One form at the bottom of every page. "Stay in the loop with the Pink Ladies." The list you build now becomes your most valuable long-term asset.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Prepared by <strong>Becca Preen</strong> · March 2026 · Confidential — for Pink Ladies Volunteer Corps internal use
+  <br>All recommendations are achievable within Wix's native feature set · No custom development required
+</footer>
+
+</body>
+</html>
